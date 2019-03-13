@@ -12,6 +12,7 @@
     "@babel/preset-env": "^7.3.1",
     "babel-jest": "^24.1.0",
     "babel-loader": "^8.0.5",
+    "cross-env": "^5.2.0",
     "eslint": "^5.14.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^4.0.0",
@@ -30,7 +31,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:updateSnapshot": "jest --updateSnapshot",
-    "start": "NODE_ENV=production ./node_modules/@babel/node/bin/babel-node.js ./src/index.js",
+    "start": "cross-env NODE_ENV=production ./node_modules/@babel/node/bin/babel-node.js ./src/index.js",
     "touch": "find src -exec touch {} \\;"
   },
   "husky": {
