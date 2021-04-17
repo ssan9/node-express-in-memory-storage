@@ -56,7 +56,7 @@ describe('GET', () => {
 
 describe('PUT', () => {
   it('should create a new array of objects of Musicians', () => {
-    request(app)
+    return request(app)
       .put('/')
       .send([
         {
@@ -74,7 +74,7 @@ describe('PUT', () => {
       });
   });
   it('should error if creating a new object instead of array of objects of Musicians', () => {
-    request(app)
+    return request(app)
       .put('/')
       .send({
         id: 'bella',
@@ -86,17 +86,35 @@ describe('PUT', () => {
         expect(response.statusCode).toBe(400);
       });
   });
-  it('should update a specific Musicians array of objects based on id', () => {
-    request(app)
+  it('should update a specific Musicians objects based on id', () => {
+    return request(app)
       .put('/ella')
-      .send({
-        id: 'ella',
-        firstName: 'Fella',
-        lastName: 'Fitz',
-        genre: 'JAZZ',
-      })
+      .send([
+        {
+          id: 'ella',
+          firstName: 'Fella',
+          lastName: 'Fitz',
+          genre: 'JAZZ',
+        },
+      ])
       .then(response => {
         expect(response.statusCode).toBe(200);
+      });
+  });
+
+  it('should get 400 error if id is not present in musicians', () => {
+    return request(app)
+      .put('/no-id-present')
+      .send([
+        {
+          id: 'ella',
+          firstName: 'Fella',
+          lastName: 'Fitz',
+          genre: 'JAZZ',
+        },
+      ])
+      .then(response => {
+        expect(response.statusCode).toBe(400);
       });
   });
 });
