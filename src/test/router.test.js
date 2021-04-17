@@ -1,7 +1,7 @@
 const request = require('supertest');
 const express = require('express');
 const { router } = require('../router');
-const { MUSICIANS_DATA } = require('../mock-data/test-data');
+const { MUSICIANS_DATA } = require('../testData/test-data');
 
 const app = express();
 

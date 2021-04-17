@@ -1,14 +1,15 @@
-'use strict';
-const express = require('express');
-const router = express.Router();
-const bodyParser = require('body-parser');
-const jsonParser = bodyParser.json();
-
-const { Musicians } = require('./models');
-
 import musiciansSchema from './schema-validation/schema-validation';
 
 import validation from './schema-validation/validation-middleware';
+
+const express = require('express');
+
+const router = express.Router();
+const bodyParser = require('body-parser');
+
+const jsonParser = bodyParser.json();
+
+const { Musicians } = require('./models');
 
 // getting all musicians
 
@@ -41,33 +42,19 @@ router.put('/', jsonParser, validation(musiciansSchema), (req, res) => {
 });
 
 router.put('/:id', jsonParser, validation(musiciansSchema), (req, res) => {
-  console.log('params', req.params.id);
-  console.log('body', req.body, req.body[0].id);
-
-  const ids = req.body.map(item => item.id);
-  const id = ids.toString();
-  console.log('id', id);
-
-  const songsArray = req.body.map(song => {
-    console.log('songs song', song);
-    return song.songs;
-  });
-  console.log('songsArray', songsArray[0]);
-
-  if (!(req.params.id && id && req.params.id === id)) {
+  const [musician] = req.body;
+  if (!musician || musician.id === parseInt(req.params.id, 10)) {
     return res.status(400).json({
       errorMessage: 'Request path id and request body id values must match',
     });
   }
 
-  req.body.map(musician => {
-    const updatedFields = Musicians.update({
-      id: req.params.id,
-      firstName: musician.firstName,
-      lastName: musician.lastName,
-      genre: musician.genre,
-      songs: songsArray[0],
-    });
+  Musicians.update({
+    id: req.params.id,
+    firstName: musician.firstName,
+    lastName: musician.lastName,
+    genre: musician.genre,
+    songs: musician.songs,
   });
 
   res.status(200).json({
