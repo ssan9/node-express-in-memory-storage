@@ -1,16 +1,12 @@
-const { router } = require('../router');
-
 const request = require('supertest');
 const express = require('express');
+const { router } = require('../router');
+const { MUSICIANS_DATA } = require('../mock-data/test-data');
+
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
 app.use('/', router);
-
-import { MUSICIANS_DATA } from '../testData/testData';
-
-const bodyParser = require('body-parser');
-const jsonParser = bodyParser.json();
 
 describe('GET', () => {
   it('should respond with an array of objects of Musicians with correct data types', done => {
@@ -18,14 +14,13 @@ describe('GET', () => {
       .get('/')
       .expect('Content-Type', /json/)
       .then(res => {
-        console.log('res', res.body[0].firstName);
         expect(typeof res.body[0].id).toBe('string');
         expect(typeof res.body[0].firstName).toBe('string');
         expect(typeof res.body[0].lastName).toBe('string');
         expect(typeof res.body[0].genre).toBe('string');
         expect(typeof res.body[0].songs).toBe('object');
-        expect(MUSICIANS_DATA);
-        expect(200);
+        expect(res.body).toMatchObject(MUSICIANS_DATA);
+        expect(res.status).toEqual(200);
         done();
       });
   });
@@ -61,7 +56,7 @@ describe('GET', () => {
 
 describe('PUT', () => {
   it('should create a new array of objects of Musicians', () => {
-    const res = request(app)
+    request(app)
       .put('/')
       .send([
         {
@@ -79,7 +74,7 @@ describe('PUT', () => {
       });
   });
   it('should error if creating a new object instead of array of objects of Musicians', () => {
-    const res = request(app)
+    request(app)
       .put('/')
       .send({
         id: 'bella',
@@ -92,7 +87,7 @@ describe('PUT', () => {
       });
   });
   it('should update a specific Musicians array of objects based on id', () => {
-    const res = request(app)
+    request(app)
       .put('/ella')
       .send({
         id: 'ella',

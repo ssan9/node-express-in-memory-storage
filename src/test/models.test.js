@@ -1,8 +1,13 @@
-const Musicians = require('../models');
+// const Musicians = require('../models');
 
-// const objectToKeyValueArrays = require('../models1');
-const models = require('../models');
+// // const objectToKeyValueArrays = require('../models1');
+// const models = require('../models');
 
+describe('test', () => {
+  it('test not needed here, delete this file or write the test in it :P', () => {
+    expect(true).toBe(true);
+  });
+});
 // describe('objectToKeyValueArrays', () => {
 // 	it('test if objectToKeyValueArrays function is called', () => {
 // 		const mockFunction = jest.fn();

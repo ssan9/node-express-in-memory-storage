@@ -34,7 +34,8 @@
     "test:coverage": "jest --coverage",
     "test:updateSnapshot": "jest --updateSnapshot",
     "start": "cross-env NODE_ENV=production ./node_modules/@babel/node/bin/babel-node.js ./src/index.js",
-    "touch": "find src -exec touch {} \\;"
+    "touch": "find src -exec touch {} \\;",
+    "lint": " eslint src/* --ext .js"
   },
   "husky": {
     "hooks": {
