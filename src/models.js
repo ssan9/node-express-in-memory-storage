@@ -4,7 +4,7 @@ const { getSongs } = require('./songs');
 
 const uuid = require('uuid');
 
-function StorageException(message) {
+export function StorageException(message) {
   this.message = message;
   this.name = 'StorageException';
 }
@@ -81,5 +81,4 @@ function createMusicians() {
 
 module.exports = {
   Musicians: createMusicians(),
-  functions: objectToKeyValueArrays,
 };
