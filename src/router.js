@@ -39,33 +39,18 @@ router.put('/', jsonParser, validation(musiciansSchema), (req, res) => {
 });
 
 router.put('/:id', jsonParser, validation(musiciansSchema), (req, res) => {
-  // console.log('params', req.params.id);
-  // console.log('body', req.body, req.body[0].id);
-
-  // const ids = req.body.map(item => item.id);
-  // const id = ids.toString();
-  // console.log('id', id);
-
-  // const songsArray = req.body.map(song => {
-  //   console.log('songs song', song);
-  //   return song.songs;
-  // });
-  // console.log('songsArray', songsArray[0]);
-
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     return res.status(400).json({
       errorMessage: 'Request path id and request body id values must match',
     });
   }
 
-  // req.body.map(musician => {
   const updatedFields = Musicians.update({
     id: req.params.id,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     genre: req.body.genre,
     songs: req.body.songs,
-    // });
   });
 
   res.status(200).json({
