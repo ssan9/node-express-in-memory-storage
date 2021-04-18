@@ -1,13 +1,12 @@
-const { router } = require('../router');
-
 const request = require('supertest');
 const express = require('express');
+const { router } = require('../router');
+const { MUSICIANS_DATA } = require('../mockData/mock-data');
+
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
 app.use('/', router);
-
-const { MUSICIANS_DATA } = require('../mockData/mock-data');
 
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
@@ -18,14 +17,13 @@ describe('GET', () => {
       .get('/')
       .expect('Content-Type', /json/)
       .then(res => {
-        console.log('res', res.body[0].firstName);
         expect(typeof res.body[0].id).toBe('string');
         expect(typeof res.body[0].firstName).toBe('string');
         expect(typeof res.body[0].lastName).toBe('string');
         expect(typeof res.body[0].genre).toBe('string');
         expect(typeof res.body[0].songs).toBe('object');
-        expect(MUSICIANS_DATA);
-        expect(200);
+        expect(res.body).toMatchObject(MUSICIANS_DATA);
+        expect(res.status).toEqual(200);
         done();
       });
   });
@@ -61,7 +59,26 @@ describe('GET', () => {
 
 describe('PUT', () => {
   it('should create a new array of objects of Musicians', () => {
-    const res = request(app)
+    return request(app)
+      .put('/')
+      .send({
+        id: 'bella',
+        firstName: 'Bella',
+        lastName: 'Fitz',
+        genre: 'ROCK',
+      })
+      .then(response => {
+        expect(response.statusCode).toBe(201);
+        expect(response.body).toEqual({
+          firstName: 'Bella',
+          genre: 'ROCK',
+          id: 'bella',
+          lastName: 'Fitz',
+        });
+      });
+  });
+  it('should error if array of objects of Musicians instead of creating a new object instead of ', () => {
+    return request(app)
       .put('/')
       .send([
         {
@@ -72,27 +89,11 @@ describe('PUT', () => {
         },
       ])
       .then(response => {
-        expect(response.statusCode).toBe(201);
-        expect(response.body).toEqual([
-          { firstName: 'Bella', genre: 'ROCK', id: 'bella', lastName: 'Fitz' },
-        ]);
-      });
-  });
-  it('should error if creating a new object instead of array of objects of Musicians', () => {
-    const res = request(app)
-      .put('/')
-      .send({
-        id: 'bella',
-        firstName: 'Bella',
-        lastName: 'Fitz',
-        genre: 'ROCK',
-      })
-      .then(response => {
         expect(response.statusCode).toBe(400);
       });
   });
-  it('should update a specific Musicians array of objects based on id', () => {
-    const res = request(app)
+  it('should update a specific Musicians objects based on id', () => {
+    return request(app)
       .put('/ella')
       .send({
         id: 'ella',
@@ -102,6 +103,20 @@ describe('PUT', () => {
       })
       .then(response => {
         expect(response.statusCode).toBe(200);
+      });
+  });
+
+  it('should get 400 error if id is not present in musicians', () => {
+    return request(app)
+      .put('/no-id-present')
+      .send({
+        id: 'ella',
+        firstName: 'Fella',
+        lastName: 'Fitz',
+        genre: 'JAZZ',
+      })
+      .then(response => {
+        expect(response.statusCode).toBe(400);
       });
   });
 });

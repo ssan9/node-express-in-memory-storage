@@ -1,4 +1,3 @@
-'use strict';
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
@@ -38,24 +37,36 @@ router.put('/', jsonParser, validation(musiciansSchema), (req, res) => {
   res.status(201).json(newMusician);
 });
 
-router.put('/:id', jsonParser, validation(musiciansSchema), (req, res) => {
-  if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
-    return res.status(400).json({
-      errorMessage: 'Request path id and request body id values must match',
-    });
+router.put(
+  '/:id',
+  jsonParser,
+  validation(musiciansSchema),
+  async (req, res) => {
+    try {
+      const originalMusician = await Musicians.getById(req.params);
+      if (!originalMusician) {
+        return res.status(400).json({
+          errorMessage: 'Request path id and request body id values must match',
+        });
+      }
+
+      Musicians.update({
+        id: req.params.id,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        genre: req.body.genre,
+        songs: req.body.songs,
+      });
+
+      return res.status(200).json({
+        id: `${req.params.id}`,
+      });
+    } catch (err) {
+      return res.status(400).json({
+        errorMessage: err,
+      });
+    }
   }
-
-  const updatedFields = Musicians.update({
-    id: req.params.id,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    genre: req.body.genre,
-    songs: req.body.songs,
-  });
-
-  res.status(200).json({
-    id: `${req.params.id}`,
-  });
-});
+);
 
 module.exports = { router };
