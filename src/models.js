@@ -41,17 +41,19 @@ const Musicians = {
       lastName: lastName,
       genre: genre,
     };
+    // merging the passed data with the new id and return the new data when the function is called
     musicians[musician.id] = musician;
     return musician;
   },
   get: async function() {
-    console.log('Retreiving musicians');
+    // combining musicians and songs data on combineData function call and return the data as array of objects when the get method is called
     return combineData(musicians);
   },
   getById: async function(musicianId) {
     const { id } = musicianId;
+    // returning the id, musicians and songs data when the getById function is called if the path id exists in the musicians data
+    const songs = await getSongs(id).catch(() => []);
     if (musicians[id]) {
-      const songs = await getSongs(id).catch(() => []);
       return {
         id,
         ...musicians[id],
@@ -61,13 +63,12 @@ const Musicians = {
   },
   update: function(updatedItem) {
     const { id } = updatedItem;
-
-    console.log('updatedId', id);
     if (!(id in musicians)) {
       throw StorageException(
         `Can't update item \`${id}\` because doesn't exist.`
       );
     }
+    // merging the passed data with the existing id and return the updated data when the function is called
     musicians[updatedItem.id] = updatedItem;
     return updatedItem;
   },

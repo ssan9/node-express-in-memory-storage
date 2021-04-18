@@ -2,6 +2,7 @@
 
 const yup = require('yup');
 
+// creating schema for put requests to ensure correct type of data is passed
 export const musiciansSchema = yup.object({
   id: yup.string().required(),
   firstName: yup
