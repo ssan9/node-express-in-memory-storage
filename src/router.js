@@ -19,8 +19,6 @@ router.get('/', async (req, res) => {
 
 // getting musicians by id
 router.get('/:id', async (req, res) => {
-  console.log('req.params.id', req.params);
-
   try {
     const musicians = await Musicians.getById(req.params);
     if (musicians.id) res.json(musicians);
