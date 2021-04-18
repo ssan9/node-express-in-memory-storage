@@ -1,4 +1,4 @@
-import foo from './foo';
+const { foo } = require('/foo');
 
 it('should foo', () => {
   expect(foo()).toEqual('bar');
