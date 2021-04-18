@@ -9,7 +9,7 @@ function StorageException(message) {
   this.name = 'StorageException';
 }
 
-function objectToKeyValueArrays(
+function combineData(
   obj,
   keyName = 'id',
   firstName = 'firstName',
@@ -46,7 +46,7 @@ const Musicians = {
   },
   get: async function() {
     console.log('Retreiving musicians');
-    return objectToKeyValueArrays(musicians);
+    return combineData(musicians);
   },
   getById: async function(musicianId) {
     const { id } = musicianId;
@@ -81,5 +81,4 @@ function createMusicians() {
 
 module.exports = {
   Musicians: createMusicians(),
-  functions: objectToKeyValueArrays,
 };
