@@ -42,7 +42,7 @@ const Musicians = {
       genre: genre,
     };
     musicians[musician.id] = musician;
-    return [musician];
+    return musician;
   },
   get: async function() {
     console.log('Retreiving musicians');
