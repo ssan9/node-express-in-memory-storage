@@ -7,11 +7,12 @@ const port = 3000;
 
 const { router: musicRouter } = require('./router');
 
-app.get('/', (req, res) => res.send('Hello World! ' + foo()));
+app.get('/', (req, res) => res.send(`Hello World! ${foo()}`));
 
 // mounting the router as middleware at path /musicians
 app.use('/musicians', musicRouter);
 
+// eslint-disable-next-line no-console
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
 module.exports = app;

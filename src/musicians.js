@@ -1,4 +1,6 @@
 // A collection of musicians where the key is the unique id
+
+/* eslint-disable import/prefer-default-export */
 export const musicians = {
   ella: {
     firstName: 'Ella',

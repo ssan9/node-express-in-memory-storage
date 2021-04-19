@@ -5,10 +5,14 @@ const router = express.Router();
 
 // using body-parser's JSON-parser to parse the JSON data sent by clients
 const bodyParser = require('body-parser');
+
 const jsonParser = bodyParser.json();
 
 const { Musicians } = require('./models');
-const { musiciansSchema } = require('./schema-validation/schema-validation');
+const {
+  musiciansSchema,
+  musiciansUpdateSchema,
+} = require('./schema-validation/schema-validation');
 const { validation } = require('./schema-validation/validation-middleware');
 
 // getting all musicians
@@ -44,16 +48,9 @@ router.put('/', jsonParser, validation(musiciansSchema), (req, res) => {
 router.put(
   '/:id',
   jsonParser,
-  validation(musiciansSchema),
+  validation(musiciansUpdateSchema),
   async (req, res) => {
     try {
-      const originalMusician = await Musicians.getById(req.params);
-      if (!originalMusician) {
-        return res.status(400).json({
-          errorMessage: 'Request path id and request body id values must match',
-        });
-      }
-
       // calling the update function to update the old values with the new values if the values of path id and request body id match
       Musicians.update({
         id: req.params.id,

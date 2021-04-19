@@ -2,8 +2,6 @@ const { musicians } = require('./musicians');
 
 const { getSongs } = require('./songs');
 
-const uuid = require('uuid');
-
 function StorageException(message) {
   this.message = message;
   this.name = 'StorageException';
@@ -33,13 +31,15 @@ function combineData(
   );
 }
 
+/*  eslint func-names: ["error", "as-needed"] */
 const Musicians = {
-  create: function(id, firstName, lastName, genre, songs) {
+  /* eslint object-shorthand: ["error", "always", { "ignoreConstructors": true }] */
+  create: function(id, firstName, lastName, genre) {
     const musician = {
-      id: id,
-      firstName: firstName,
-      lastName: lastName,
-      genre: genre,
+      id,
+      firstName,
+      lastName,
+      genre,
     };
     // merging the passed data with the new id and return the new data when the function is called
     musicians[musician.id] = musician;
@@ -60,12 +60,13 @@ const Musicians = {
         songs,
       };
     }
+    return null;
   },
   update: function(updatedItem) {
     const { id } = updatedItem;
     if (!(id in musicians)) {
-      throw StorageException(
-        `Can't update item \`${id}\` because doesn't exist.`
+      throw new StorageException(
+        `Can't update item \`${id}\` because it doesn't exist.`
       );
     }
     // merging the passed data with the existing id and return the updated data when the function is called

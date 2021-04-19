@@ -1,15 +1,15 @@
 const request = require('supertest');
+
 const express = require('express');
+
 const { router } = require('../router');
+
 const { MUSICIANS_DATA } = require('../mockData/mock-data');
 
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
 app.use('/', router);
-
-const bodyParser = require('body-parser');
-const jsonParser = bodyParser.json();
 
 describe('GET', () => {
   it('should respond with an array of objects of Musicians with correct data types', done => {
