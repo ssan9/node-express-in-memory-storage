@@ -31,10 +31,8 @@ function combineData(
   );
 }
 
-/*  eslint func-names: ["error", "as-needed"] */
 const Musicians = {
-  /* eslint object-shorthand: ["error", "always", { "ignoreConstructors": true }] */
-  create: function(id, firstName, lastName, genre) {
+  create: (id, firstName, lastName, genre) => {
     const musician = {
       id,
       firstName,
@@ -45,11 +43,11 @@ const Musicians = {
     musicians[musician.id] = musician;
     return musician;
   },
-  get: async function() {
+  get: () => {
     // combining musicians and songs data on combineData function call and return the data as array of objects when the get method is called
     return combineData(musicians);
   },
-  getById: async function(musicianId) {
+  getById: async musicianId => {
     const { id } = musicianId;
     // returning the id, musicians and songs data when the getById function is called if the path id exists in the musicians data
     const songs = await getSongs(id).catch(() => []);
@@ -62,7 +60,7 @@ const Musicians = {
     }
     return null;
   },
-  update: function(updatedItem) {
+  update: updatedItem => {
     const { id } = updatedItem;
     if (!(id in musicians)) {
       throw new StorageException(
