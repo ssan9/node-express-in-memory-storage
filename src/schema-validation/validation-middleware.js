@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 export const validation = schema => async (req, res, next) => {
   const { body } = req;
 
