@@ -106,10 +106,11 @@ const Musicians = {
     }
     return null;
   },
-  // delete: musicianId => {    // The delete() method takes a single argument: the id of the musicians item to be deleted. Note that if you pass this method an id for an item that does not exist, no error will be thrown.
-  //   console.log(`Deleting recipe with id \`${musicianId}\``);
-  //   delete musicians[musicianId];
-  // },
+  delete: musicianId => {
+    // The delete() method takes a single argument: the id of the musicians item to be deleted. Note that if you pass this method an id for an item that does not exist, no error will be thrown.
+    // console.log(`Deleting musicians with id \`${musicianId}\``);
+    delete musicians[musicianId];
+  },
   update: updatedItem => {
     // Finally, the update() method takes a single parameter: updatedItem which is an object representing the updated item. Note that this method will throw an error if it tries to update a non-existent item.
     const { id } = updatedItem;

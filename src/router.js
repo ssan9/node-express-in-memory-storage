@@ -51,10 +51,10 @@ router.put('/', jsonParser, validation(musiciansSchema), async (req, res) => {
   res.status(201).json(newMusician); // no error message if values are missing? Maybe yup validation is taking care of that
 });
 
-// router.delete('/:id', (req, res) => {
-//   Musicians.delete(req.params.id); // As with create and read operations, our DELETE endpoint will use the URL /musicians, but will include a path variable for the id of the musicians item to be deleted.
-//   res.status(204).end();
-// }); // This API endpoint will need to call Musicians.delete(), supplying the id of the item to be deleted. We retrieve the id of the item to be deleted from the request params, and then call Musicians.delete() with that value. We send back a blank response with a 204 status code.
+router.delete('/:id', async (req, res) => {
+  await Musicians.delete(req.params.id); // As with create and read operations, our DELETE endpoint will use the URL /musicians, but will include a path variable for the id of the musicians item to be deleted.
+  res.status(204).end();
+}); // This API endpoint will need to call Musicians.delete(), supplying the id of the item to be deleted. We retrieve the id of the item to be deleted from the request params, and then call Musicians.delete() with that value. We send back a blank response with a 204 status code.
 
 // updating musician data by id
 router.put(
@@ -65,7 +65,7 @@ router.put(
   async (req, res) => {
     try {
       // calling the update function to update the old values with the new values if the values of path id and request body id match
-      Musicians.update({
+      await Musicians.update({
         // For put requests no need to put id in the body when sending data to update
         id: req.params.id, // like our PUTT endpoint, we're validating the data to ensure a.) that the required fields have been sent, and b.) that the id values in the request body and request path URL match. Assuming the request is valid, this endpoint calls Musicians.update() with the updated data. In the success case, this endpoint returns a 200 HTTP status code with the targeted id
         firstName: req.body.firstName,
