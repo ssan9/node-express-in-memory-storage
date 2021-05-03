@@ -13,7 +13,7 @@ app.use('/', router);
 
 describe('GET', () => {
   it('should respond with an array of objects of Musicians with correct data types', done => {
-    return request(app)
+    return request(app) // return statement is important in all the tests here otherwise the coverage will be low
       .get('/')
       .expect('Content-Type', /json/)
       .then(res => {

@@ -2,6 +2,7 @@
 
 /* eslint-disable import/prefer-default-export */
 export const musicians = {
+  // when the server first starts, we manually add four items to the musicians, so there will be something to retrieve.
   ella: {
     firstName: 'Ella',
     lastName: 'Fitzgerald',
