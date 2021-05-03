@@ -52,7 +52,7 @@ router.put('/', jsonParser, validation(musiciansSchema), async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-  await Musicians.delete(req.params.id); // As with create and read operations, our DELETE endpoint will use the URL /musicians, but will include a path variable for the id of the musicians item to be deleted.
+  Musicians.delete(req.params.id); // As with create and read operations, our DELETE endpoint will use the URL /musicians, but will include a path variable for the id of the musicians item to be deleted.
   res.status(204).end();
 }); // This API endpoint will need to call Musicians.delete(), supplying the id of the item to be deleted. We retrieve the id of the item to be deleted from the request params, and then call Musicians.delete() with that value. We send back a blank response with a 204 status code.
 
