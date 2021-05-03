@@ -65,7 +65,7 @@ router.put(
   async (req, res) => {
     try {
       // calling the update function to update the old values with the new values if the values of path id and request body id match
-      await Musicians.update({
+      Musicians.update({
         // For put requests no need to put id in the body when sending data to update
         id: req.params.id, // like our PUTT endpoint, we're validating the data to ensure a.) that the required fields have been sent, and b.) that the id values in the request body and request path URL match. Assuming the request is valid, this endpoint calls Musicians.update() with the updated data. In the success case, this endpoint returns a 200 HTTP status code with the targeted id
         firstName: req.body.firstName,
